@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raport Practică — Sorocan Mihail</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="marca-nav">Sorocan Mihail</div>
+  <div class="linkuri-nav">
+    <a href="index.html" class="nav-lnk">CV &amp; Probleme</a>
+    <a href="tema.html" class="nav-lnk activ">Moștenire Simplă</a>
+    <a href="experienta.html" class="nav-lnk">Experiențe</a>
+    <a href="declaratie.html" class="nav-lnk">Declarație</a>
+  </div>
+</nav>
+
+<div class="continut">
+  <div class="theme-hero">
+    <div class="eyebrow">Capitol 2 · Unitatea de Învățare Analizată</div>
+    <h1>Moștenirea <em>Simplă</em><br>în C#</h1>
+    <p>O explicație clară și omenească a unui concept esențial din Programarea Orientată pe Obiecte</p>
+  </div>
+
+  <!-- CONȚINUT -->
+  <div class="theme-body">
+
+    <h2>Ce este moștenirea, de fapt?</h2>
+    <p>Înainte să vorbim de cod, gândește-te la viața reală. Orice animal mănâncă, doarme și respiră. Dacă vorbim acum despre un câine specific, el face toate astea — plus că latră și poate fi dresat.</p>
+    <p>În programare, <strong>moștenirea</strong> funcționează exact la fel: o clasă „copil" preia automat tot ce are clasa „părinte", fără să rescrii nimic. Câinele moștenește comportamentele de bază ale oricărui animal.</p>
+
+    <div class="callout">
+      <p><strong>Definiție:</strong> Moștenirea simplă înseamnă că o clasă derivată (copil) preia proprietățile și metodele unei <em>singure</em> clase de bază (părinte). În C# se exprimă cu <code>:</code> — de exemplu <code>class Caine : Animal</code>.</p>
+    </div>
+
+    <hr class="theme-hr">
+
+    <h2>Schema vizuală</h2>
+    <p>Moștenirea simplă este o relație de la unu la unu — un copil, un singur părinte:</p>
+
+    <div class="schema">
+      <div>Animal  <span class="dim">← clasa de bază (părinte)</span></div>
+      <div style="color:#5a4e38">    ↓</div>
+      <div><span class="leaf">Caine</span>   <span class="dim">← clasa derivată (copil)</span></div>
+    </div>
+
+    <p>Sau un lanț mai lung — B moștenește din A, C moștenește din B:</p>
+
+    <div class="schema">
+      <div>Vehicul  <span class="dim">← baza</span></div>
+      <div style="color:#5a4e38">    ↓</div>
+      <div><span class="leaf">Masina</span>   <span class="dim">← moștenește din Vehicul</span></div>
+      <div style="color:#5a4e38">    ↓</div>
+      <div><span class="leaf">MasinaSport</span>   <span class="dim">← moștenește din Masina</span></div>
+    </div>
+
+    <hr class="theme-hr">
+
+    <h2>Sintaxa în C# — pas cu pas</h2>
+
+    <h3>1. Clasa de bază</h3>
+    <p>Definim clasa <code>Animal</code> cu proprietăți și metode comune tuturor animalelor. Metoda marcată cu <code>virtual</code> poate fi rescrisă de copii:</p>
+
+<pre><span class="kw">class</span> <span class="ty">Animal</span>
+{
+    <span class="kw">public string</span> Nume;
+    <span class="kw">public int</span>    Varsta;
+
+    <span class="kw">public void</span> Mananca()
+    {
+        Console.WriteLine(Nume + <span class="str">" mănâncă."</span>);
+    }
+
+    <span class="kw">public virtual void</span> Sunet() <span class="cm">// virtual = poate fi rescris</span>
+    {
+        Console.WriteLine(<span class="str">"Sunet generic de animal."</span>);
+    }
+}</pre>
+
+    <h3>2. Clasa derivată (copilul)</h3>
+    <p><code>Caine</code> moștenește din <code>Animal</code> cu <code>:</code>, rescrie <code>Sunet()</code> cu <code>override</code> și adaugă propriile metode:</p>
+
+<pre><span class="kw">class</span> <span class="ty">Caine</span> : <span class="ty">Animal</span>  <span class="cm">// ":" înseamnă "moștenește din"</span>
+{
+    <span class="kw">public string</span> Rasa;  <span class="cm">// propriu doar câinelui</span>
+
+    <span class="kw">public override void</span> Sunet()  <span class="cm">// rescrie metoda din Animal</span>
+    {
+        Console.WriteLine(Nume + <span class="str">" face: Ham Ham!"</span>);
+    }
+
+    <span class="kw">public void</span> AduceMingea()  <span class="cm">// metodă nouă, nu există în Animal</span>
+    {
+        Console.WriteLine(Nume + <span class="str">" aduce mingea!"</span>);
+    }
+}</pre>
+
+    <p>Câinele a <strong>moștenit</strong> <code>Nume</code>, <code>Varsta</code> și <code>Mananca()</code> fără să le rescrie, a <strong>rescris</strong> <code>Sunet()</code> și a <strong>adăugat</strong> <code>AduceMingea()</code>.</p>
+
+    <h3>3. Utilizarea în Main</h3>
+
+<pre><span class="kw">class</span> <span class="ty">Program</span>
+{
+    <span class="kw">static void</span> Main()
+    {
+        <span class="ty">Caine</span> c = <span class="kw">new</span> <span class="ty">Caine</span>();
+        c.Nume   = <span class="str">"Rex"</span>;        <span class="cm">// moștenit din Animal</span>
+        c.Varsta = <span class="num">3</span>;           <span class="cm">// moștenit din Animal</span>
+        c.Rasa   = <span class="str">"Labrador"</span>;  <span class="cm">// propriu câinelui</span>
+
+        c.Mananca();       <span class="cm">// Rex mănâncă.       (din Animal)</span>
+        c.Sunet();         <span class="cm">// Rex face: Ham Ham! (rescris)</span>
+        c.AduceMingea();   <span class="cm">// Rex aduce mingea!  (propriu)</span>
+    }
+}</pre>
+
+    <hr class="theme-hr">
+
+    <h2>Cuvintele cheie esențiale</h2>
+
+    <h3>virtual și override</h3>
+    <p><code>virtual</code> în clasa de bază înseamnă „această metodă poate fi rescrisă de copii". <code>override</code> în clasa derivată înseamnă „rescriu această metodă cu comportamentul meu". Dacă uiți <code>virtual</code>, compilatorul refuză <code>override</code>.</p>
+
+    <h3>base — apelarea părintelui</h3>
+    <p>Uneori vrei să <em>extinzi</em> comportamentul părintelui, nu să îl înlocuiești complet. Folosești <code>base</code>:</p>
+
+<pre><span class="kw">public override void</span> Sunet()
+{
+    base.Sunet();  <span class="cm">// mai întâi apelăm metoda din Animal</span>
+    Console.WriteLine(Nume + <span class="str">" mai latră o dată."</span>);
+}</pre>
+
+    <h3>Constructori și base()</h3>
+    <p>Dacă clasa de bază are constructor cu parametri, copilul îl apelează cu <code>base()</code>:</p>
+
+<pre><span class="kw">class</span> <span class="ty">Animal</span>
+{
+    <span class="kw">public string</span> Nume;
+    <span class="kw">public</span> Animal(<span class="kw">string</span> nume) { Nume = nume; }
+}
+
+<span class="kw">class</span> <span class="ty">Caine</span> : <span class="ty">Animal</span>
+{
+    <span class="kw">public string</span> Rasa;
+    <span class="kw">public</span> Caine(<span class="kw">string</span> nume, <span class="kw">string</span> rasa)
+        : base(nume)  <span class="cm">// trimite "nume" la constructorul Animal</span>
+    {
+        Rasa = rasa;
+    }
+}</pre>
+
+    <hr class="theme-hr">
+
+    <h2>Polimorfismul — puterea moștenirii</h2>
+    <p>Cel mai frumos lucru la moștenire: poți trata un obiect de tip copil ca și cum ar fi de tipul părintelui. C# știe la execuție ce metodă să apeleze:</p>
+
+<pre><span class="ty">Animal</span> a = <span class="kw">new</span> <span class="ty">Caine</span>();  <span class="cm">// Caine tratat ca Animal</span>
+a.Sunet();
+<span class="cm">// Va afișa "Rex face: Ham Ham!" — nu sunetul generic!</span>
+<span class="cm">// C# știe că obiectul real este Caine.</span></pre>
+
+    <div class="callout">
+      <p><strong>Exemplu practic:</strong> Poți crea o listă de <code>Animal</code> care conține câini, pisici și păsări amestecate și să apelezi <code>Sunet()</code> pe fiecare — fiecare va face sunetul lui propriu, automat.</p>
+    </div>
+
+    <hr class="theme-hr">
+
+    <h2>Exemplu complet — Vehicul și Masina</h2>
+
+<pre><span class="kw">using</span> System;
+
+<span class="kw">class</span> <span class="ty">Vehicul</span>
+{
+    <span class="kw">public string</span> Marca;
+    <span class="kw">public int</span>    AnFabricatie;
+
+    <span class="kw">public</span> Vehicul(<span class="kw">string</span> marca, <span class="kw">int</span> an)
+    {
+        Marca = marca;
+        AnFabricatie = an;
+    }
+
+    <span class="kw">public virtual void</span> Descrie()
+    {
+        Console.WriteLine(<span class="str">"Vehicul: "</span> + Marca +
+                          <span class="str">" ("</span> + AnFabricatie + <span class="str">")"</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="ty">Masina</span> : <span class="ty">Vehicul</span>
+{
+    <span class="kw">public int</span> NrUsi;
+
+    <span class="kw">public</span> Masina(<span class="kw">string</span> marca, <span class="kw">int</span> an, <span class="kw">int</span> usi)
+        : base(marca, an)
+    {
+        NrUsi = usi;
+    }
+
+    <span class="kw">public override void</span> Descrie()
+    {
+        base.Descrie();
+        Console.WriteLine(<span class="str">"  Mașină cu "</span> + NrUsi + <span class="str">" uși."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="ty">Program</span>
+{
+    <span class="kw">static void</span> Main()
+    {
+        <span class="ty">Masina</span> m = <span class="kw">new</span> <span class="ty">Masina</span>(<span class="str">"Dacia"</span>, <span class="num">2022</span>, <span class="num">4</span>);
+        m.Descrie();
+        <span class="cm">// Output:</span>
+        <span class="cm">// Vehicul: Dacia (2022)</span>
+        <span class="cm">//   Mașină cu 4 uși.</span>
+    }
+}</pre>
+
+    <hr class="theme-hr">
+
+    <h2>Avantaje și dezavantaje</h2>
+    <div class="adv-grid">
+      <div class="adv-card pos">
+        <h4>Avantaje</h4>
+        <ul>
+          <li>Elimină codul duplicat</li>
+          <li>Ușor de extins cu clase noi</li>
+          <li>Polimorfism — cod flexibil</li>
+          <li>Logica comună într-un singur loc</li>
+          <li>Mai ușor de întreținut</li>
+        </ul>
+      </div>
+      <div class="adv-card neg">
+        <h4>Dezavantaje</h4>
+        <ul>
+          <li>Cuplare strânsă între clase</li>
+          <li>Modificarea părintelui afectează toți copiii</li>
+          <li>Ierarhii adânci greu de urmărit</li>
+          <li>C# nu permite moștenire din mai mulți părinți</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="theme-hr">
+
+    <h2>Concluzii</h2>
+    <p>Moștenirea simplă este poate cel mai important concept din POO. Odată înțeles, îl vei vedea peste tot — în framework-uri, în aplicații mari, peste tot.</p>
+    <p>Cel mai important de reținut: moștenirea nu înseamnă copiere de cod, ci o relație structurată în care copilul <em>este un</em> tip de părinte, extinzând sau personalizând comportamentul acestuia.</p>
+    <p>Am aplicat acest concept în cadrul practicii în proiectele POO, unde clasele de date puteau fi organizate ierarhic pentru a evita repetarea codului comun.</p>
+
+  </div>
+
+  <footer>
+    Sorocan Mihail · DW2412 · IP CEEF Chișinău · Practică de Instruire 2025–2026
+  </footer>
+</section>
+</div>
+
+</body>
+</html>
